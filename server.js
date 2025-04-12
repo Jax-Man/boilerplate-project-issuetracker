@@ -5,13 +5,17 @@ const bodyParser  = require('body-parser');
 const expect      = require('chai').expect;
 const cors        = require('cors');
 require('dotenv').config();
-
+const { MongoClient } = require('mongodb');
 const apiRoutes         = require('./routes/api.js');
 const fccTestingRoutes  = require('./routes/fcctesting.js');
 const runner            = require('./test-runner');
 
 let app = express();
 
+// initialize MongoClient
+const uri = process.env.MONGO_URI;
+const client = new MongoClient(uri);
+const db = client.db('issue_tracker');
 app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
